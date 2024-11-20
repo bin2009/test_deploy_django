@@ -37,24 +37,34 @@ jobs:
         HOST: ${{ secrets.SERVER_HOST }}
         USER: ${{ secrets.SERVER_USER }}
         PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      # run: |
+      #   echo "$PRIVATE_KEY" > private_key.pem
+      #   chmod 600 private_key.pem
+
+      #   # Tạo thư mục .ssh nếu chưa tồn tại
+      #   mkdir -p ~/.ssh
+
+      #   # Thêm khóa công khai của máy chủ vào known_hosts
+      #   ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
+
+
+      #   scp -i private_key.pem -r ./my_tennis_club $USER@$HOST:/dut/test/test_deploy_django
+      #   ssh -i private_key.pem $USER@$HOST << 'EOF'
+      #     cd /dut/test/test_deploy_django
+      #     source venv/bin/activate
+      #     pip install -r requirements.txt
+      #     python manage.py migrate
+      #     python manage.py collectstatic --noinput
+      #     systemctl restart gunicorn
+      #     systemctl restart nginx
+      #   EOF
       run: |
-        echo "$PRIVATE_KEY" > private_key.pem
-        chmod 600 private_key.pem
-
-        # Tạo thư mục .ssh nếu chưa tồn tại
-        mkdir -p ~/.ssh
-
-        # Thêm khóa công khai của máy chủ vào known_hosts
-        ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
-
-
-        scp -i private_key.pem -r ./my_tennis_club $USER@$HOST:/dut/test/test_deploy_django
-        ssh -i private_key.pem $USER@$HOST << 'EOF'
+        ssh -o StrictHostKeyChecking=no root@159.65.228.23 << 'EOF'
           cd /dut/test/test_deploy_django
+          git pull origin main
           source venv/bin/activate
           pip install -r requirements.txt
           python manage.py migrate
-          python manage.py collectstatic --noinput
-          systemctl restart gunicorn
-          systemctl restart nginx
+          sudo systemctl restart gunicorn  # Restart Gunicorn service
+          sudo systemctl restart nginx  # Restart Nginx service
         EOF
