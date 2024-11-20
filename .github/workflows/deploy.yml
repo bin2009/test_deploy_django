@@ -124,7 +124,6 @@ jobs:
 
       - name: Deploy to DigitalOcean
         run: |
-          ssh -o StrictHostKeyChecking=no root@159.65.228.23 << 'EOF'
             cd /dut/test/test_deploy_django
             git pull origin main
             source venv/bin/activate
