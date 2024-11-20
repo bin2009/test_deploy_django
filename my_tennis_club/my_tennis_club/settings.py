@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-u=+n$otxarg9v@h%_o1i-#mz$+pdi#(z&owbrmv4+@hp$s5!du
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['159.65.228.23']
 
 
 # Application definition
@@ -69,7 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'my_tennis_club.wsgi.application'
 
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
