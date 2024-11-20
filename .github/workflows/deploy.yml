@@ -29,7 +29,7 @@ jobs:
     # 4. Chạy tests (nếu có)
     - name: Run tests
       run: |
-        python manage.py test
+        python ${{ github.workspace }}/my_tennis_club/manage.py test
 
     # 5. Deploy lên server
     - name: Deploy to DigitalOcean
