@@ -40,6 +40,10 @@ jobs:
       run: |
         echo "$PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
+        # Thêm khóa công khai của máy chủ vào known_hosts
+        ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
+
+
         scp -i private_key.pem -r . $USER@$HOST:/dut/test/test_deploy_django
         ssh -i private_key.pem $USER@$HOST << 'EOF'
           cd /dut/test/test_deploy_django
